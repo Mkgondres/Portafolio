@@ -924,3 +924,86 @@ body, p, .bio-paragraph, .resume-desc {
 .portfolio-section  /* Sección 5: Obras Seleccionadas */ {
     background-color: #F2F0EC !important; /* Beige medio sofisticado que marca el cambio de ritmo */
 }
+/* ================= UNIFICACIÓN GLOBAL: TEXTO NEGRO PURO Y ACENTOS DORADOS ================= */
+
+/* 1. TEXTO NEGRO PURO Y GROSOR ÓPTIMO (Para toda la página) */
+body, p, 
+.bio-paragraph, 
+.resume-desc, 
+.accordion-title, 
+.accordion-inner p,
+.section-title {
+    color: #000000 !important; 
+    font-weight: 400 !important; /* Grosor ideal, idéntico al de nuestro chat */
+}
+
+/* Ajuste de tamaño para la lectura de la biografía */
+.bio-paragraph {
+    font-size: 1.25rem !important;
+}
+
+/* ================= 2. DETALLES EN DORADO PREMIUM (#B2905F) ================= */
+
+/* Sección 2: Letra Capitular Dorada */
+.drop-cap::first-letter {
+    color: #B2905F !important;
+}
+
+/* Sección 3: Trayectoria (Líneas divisorias y Años) */
+.resume-item {
+    border-top: 1px solid #B2905F !important;
+}
+.resume-item:first-child {
+    border-top: 2px solid #B2905F !important;
+}
+.resume-year {
+    color: #B2905F !important;
+    font-weight: 600 !important;
+}
+
+/* Sección 4: Competencias (Acordeón, líneas, números y cruz) */
+.accordion-item {
+    border-bottom: 1px solid #B2905F !important;
+}
+.accordion-item:first-child {
+    border-top: 1px solid #B2905F !important;
+}
+.accordion-number {
+    color: #B2905F !important;
+    font-weight: 600 !important;
+}
+.accordion-icon::before,
+.accordion-icon::after {
+    background-color: #B2905F !important;
+}
+
+/* Sección 5: Obras Seleccionadas (Filtros interactivos) */
+.filter-btn {
+    color: #1A1A1A !important; /* Negro carbón para filtros inactivos */
+    font-weight: 500 !important;
+}
+.filter-btn:hover,
+.filter-btn.active {
+    color: #B2905F !important; /* El texto se vuelve dorado al seleccionarlo */
+}
+.filter-btn::after {
+    background-color: #B2905F !important; /* La línea subrayada se vuelve dorada */
+}
+
+/* ================= ADAPTACIÓN MÓVIL (SECCIÓN 2) ================= */
+@media (max-width: 850px) {
+    .profile-grid { 
+        grid-template-columns: 1fr; 
+        gap: 3.5rem; 
+    }
+    .profile-image { 
+        grid-row: 1; /* En móvil, la foto del arquitecto aparece primero */
+    }
+    .profile-text { 
+        grid-row: 2; /* El texto va debajo */
+    }
+    .bio-paragraph {
+        font-size: 1.15rem !important; 
+        text-align: left !important; 
+    }
+}

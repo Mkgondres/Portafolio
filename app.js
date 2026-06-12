@@ -115,13 +115,10 @@ class AccordionController extends UIAnimator {
             const header = item.querySelector('.accordion-header');
             
             header.addEventListener('click', () => {
-                // Ahora verificamos si tiene la clase 'open' en lugar de 'active'
                 const isOpen = item.classList.contains('open');
                 
-                // Cierra todos quitando la clase 'open'
                 this.elements.forEach(el => el.classList.remove('open'));
 
-                // Si no estaba abierto, lo abrimos
                 if (!isOpen) {
                     item.classList.add('open');
                 }
@@ -130,8 +127,7 @@ class AccordionController extends UIAnimator {
     }
 }
 
-
-// CLASE: Sistema de Filtrado de Portafolio Avanzado (Sección 5 - SRP)
+// CLASE: Sistema de Filtrado de Portafolio Avanzado (Sección 5)
 class PortfolioFilter {
     constructor(buttonsSelector, itemsSelector) {
         this.buttons = document.querySelectorAll(buttonsSelector);
@@ -143,7 +139,6 @@ class PortfolioFilter {
 
         this.buttons.forEach(button => {
             button.addEventListener('click', (e) => {
-                // Cambiar el botón activo visualmente
                 this.buttons.forEach(btn => btn.classList.remove('active'));
                 e.target.classList.add('active');
 
@@ -155,18 +150,15 @@ class PortfolioFilter {
 
     animateFilter(filterValue) {
         this.items.forEach(item => {
-            // Fase 1: Desvanecer los elementos hacia afuera
             item.style.opacity = '0';
             item.style.transform = 'scale(0.95) translateY(10px)';
 
             setTimeout(() => {
                 const itemCategory = item.getAttribute('data-category');
 
-                // Fase 2: Decidir si se oculta o se muestra en base al filtro
                 if (filterValue === 'all' || itemCategory === filterValue) {
                     item.style.display = 'block';
                     
-                    // Pequeña pausa para permitir que el navegador registre el cambio de display
                     setTimeout(() => {
                         item.style.opacity = '1';
                         item.style.transform = 'scale(1) translateY(0)';
@@ -174,15 +166,15 @@ class PortfolioFilter {
                 } else {
                     item.style.display = 'none';
                 }
-            }, 450); // Tiempo alineado con la transición de CSS
+            }, 450); 
         });
     }
 }
 
-// NUEVA CLASE: Controlador del Menú Hamburguesa para Móviles
+// CLASE: Controlador del Menú Hamburguesa para Móviles
 class MobileMenu extends UIAnimator {
     constructor(btnSelector, menuSelector) {
-        super(btnSelector); // Usamos el botón como elemento principal
+        super(btnSelector);
         this.btn = document.querySelector(btnSelector);
         this.menu = document.querySelector(menuSelector);
         this.links = document.querySelectorAll(`${menuSelector} a`);
@@ -191,13 +183,11 @@ class MobileMenu extends UIAnimator {
     init() {
         if (!this.btn || !this.menu) return;
 
-        // 1. Abrir/Cerrar al hacer clic en la hamburguesa
         this.btn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evita que el clic dispare el evento de cerrar el documento
+            e.stopPropagation(); 
             this.toggleMenu();
         });
 
-        // 2. Cerrar al hacer clic en cualquier lugar FUERA del menú
         document.addEventListener('click', (e) => {
             const isMenuOpen = this.menu.classList.contains('open');
             const clickedInsideMenu = this.menu.contains(e.target);
@@ -208,7 +198,6 @@ class MobileMenu extends UIAnimator {
             }
         });
 
-        // 3. Cerrar automáticamente cuando el usuario haga clic en un enlace (Perfil, Obras, etc.)
         this.links.forEach(link => {
             link.addEventListener('click', () => this.closeMenu());
         });
@@ -225,34 +214,95 @@ class MobileMenu extends UIAnimator {
     }
 }
 
+// NUEVA CLASE: Controlador de Enfoque e Indicadores del Carrusel Móvil (Con función táctil)
+class CarouselController extends UIAnimator {
+    constructor(gridSelector, columnSelector, indicatorSelector) {
+        super(gridSelector);
+        this.grid = document.querySelector(gridSelector);
+        this.columns = document.querySelectorAll(columnSelector);
+        this.indicators = document.querySelectorAll(indicatorSelector);
+    }
+
+    init() {
+        if (!this.grid || !this.columns.length || !this.indicators.length) return;
+
+        // Solo se activa si estamos en pantalla móvil
+        if (window.innerWidth > 850) return;
+
+        // 1. Escucha cuando el usuario desliza con el dedo (Swipe)
+        this.grid.addEventListener('scroll', () => {
+            requestAnimationFrame(() => this.updateCarousel());
+        });
+
+        // 2. Escucha cuando el usuario TOCA una línea indicadora
+        this.indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                const columnWidth = this.grid.clientWidth;
+                // Desliza suavemente a la columna correspondiente
+                this.grid.scrollTo({
+                    left: columnWidth * index,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Ejecución inicial al cargar para iluminar la primera línea
+        this.updateCarousel();
+    }
+
+    updateCarousel() {
+        const scrollLeft = this.grid.scrollLeft;
+        const width = this.grid.clientWidth;
+        
+        // Calcula qué columna está enfocada en pantalla (0 o 1)
+        const activeIndex = Math.round(scrollLeft / width);
+
+        // Actualiza las líneas (dorado activo / gris inactivo)
+        this.indicators.forEach((indicator, index) => {
+            if (index === activeIndex) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
+
+        // Aplica el Enfoque Visual: atenúa la columna que no se está viendo
+        this.columns.forEach((column, index) => {
+            if (index === activeIndex) {
+                column.style.opacity = '1';
+            } else {
+                column.style.opacity = '0.25'; // Transparencia elegante
+            }
+        });
+    }
+}
+
 // --------------------------------------------------
 // 2. INICIALIZACIÓN (Encendemos las herramientas)
 // --------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Inicializaciones Sección 1
     const textAnimator = new TextSequenceAnimator('.reveal-text', 200);
     textAnimator.init();
 
     const heroParallax = new MouseParallax('parallax-container', 'parallax-image', 15);
     heroParallax.init();
 
-    // Inicializaciones Sección 2, 3, 4 y 5 (Scroll Reveal unificado)
     const scrollAnimate = new ScrollObserver('.scroll-reveal');
     scrollAnimate.init();
 
-    // Inicialización Sección 4 (Acordeón)
     const accordionUI = new AccordionController('.accordion-item');
     accordionUI.init();
 
-    // Inicialización Sección 5 (Filtros Portafolio)
     const galleryFilter = new PortfolioFilter('.filter-btn', '.portfolio-item');
     galleryFilter.init();
 
-    // Inicialización del Menú Móvil (NUEVO)
     const mobileNav = new MobileMenu('.hamburger-btn', '.nav-menu');
     mobileNav.init();
 
-});
+    // ¡Aquí encendemos el Carrusel Inteligente!
+    const resumeCarousel = new CarouselController('.resume-grid', '.resume-column', '.indicator-dash');
+    resumeCarousel.init();
 
+});

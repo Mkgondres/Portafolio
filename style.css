@@ -306,10 +306,47 @@ p, .resume-desc, .accordion-inner p {
     .cinematic-nav .nav-links a { font-size: 1.3rem; color: #FFFFFF; }
     .cinematic-nav .nav-contact { font-size: 1.3rem; margin-top: 1rem; color: var(--accent); border-color: var(--accent); }
 
-    /* --- SECCIÓN 2: PERFIL (Orden de foto y texto) --- */
-    .profile-grid { gap: 3.5rem !important; }
-    .profile-image { grid-row: 1; } 
-    .profile-text { grid-row: 2; }
+        /* --- SECCIÓN 2: PERFIL (Fijando el texto comprimido y la foto) --- */
+    .profile-grid { 
+        display: flex !important; /* Cambiamos a Flexbox para control total del orden en móvil */
+        flex-direction: column !important;
+        gap: 2.5rem !important; 
+    }
+    
+    /* 1. La foto va primero y a pantalla completa */
+    .profile-image { 
+        order: 1 !important; 
+        width: 100% !important; 
+    }
+    .profile-image img { 
+        width: 100% !important; 
+        max-height: 450px !important; /* Altura imponente pero sin ocupar toda la pantalla */
+        object-fit: cover !important; 
+        border-radius: 4px !important; 
+    }
+
+    /* 2. El texto va debajo, libre y a lo ancho de toda la pantalla */
+    .profile-text { 
+        order: 2 !important; 
+        width: 100% !important; 
+        display: block !important;
+    }
+    
+    /* 3. Reparación del texto aplastado */
+    .bio-paragraph { 
+        width: 100% !important; 
+        font-size: 1.1rem !important; /* Tamaño nítido, idéntico a este chat */
+        line-height: 1.6 !important; 
+        text-align: left !important; 
+    }
+    
+    /* 4. Ajuste de la letra "L" gigante para que no asfixie a los párrafos */
+    .drop-cap::first-letter { 
+        font-size: 3.8rem !important; /* Más discreta para la pantalla del celular */
+        margin-right: 0.6rem !important; 
+        line-height: 0.8 !important; 
+    }
+
 
     /* --- SECCIÓN 3: TRAYECTORIA --- */
     .resume-item { padding: 2rem 0 !important; }

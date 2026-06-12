@@ -833,3 +833,77 @@ html {
         text-align: center;
     }
 }
+/* ================= CORRECCIÓN DE LEGIBILIDAD Y COLOR (ANTI-ABURRIMIENTO) ================= */
+
+/* 1. Letras más gruesas y negras (Legibilidad óptima en móviles) */
+body, p, .bio-paragraph, .resume-desc {
+    color: #000000 !important; /* Negro absoluto */
+    font-weight: 400 !important; /* Mayor grosor, igual al chat */
+}
+
+.bio-paragraph {
+    font-size: 1.25rem !important; /* Un tamaño ideal y legible */
+}
+
+/* 2. Estilos para la nueva grilla de la Sección 2 (Texto + Foto) */
+.container-wide { 
+    max-width: 1200px; 
+    width: 100%; 
+    margin: 0 auto; 
+}
+
+.profile-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 5rem; 
+    align-items: center; 
+}
+
+.profile-image img { 
+    width: 100%; 
+    height: auto; 
+    object-fit: cover; 
+    border-radius: 4px; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08); /* Sombra elegante */
+}
+
+/* 3. Toques de Color Dorado/Bronce Premium */
+.drop-cap::first-letter {
+    color: #B2905F !important; /* La letra gigante "L" ahora es dorada */
+}
+
+/* 4. Romper la Sábana Blanca: Ajustes para la Sección de Trayectoria */
+.resume-section {
+    background-color: #F4F3F0 !important; /* Fondo beige cálido muy sutil */
+}
+
+.resume-item {
+    border-top: 1px solid #B2905F !important; /* Líneas separadoras doradas */
+}
+
+.resume-item:first-child {
+    border-top: 2px solid #B2905F !important; 
+}
+
+.resume-year {
+    color: #B2905F !important; /* Años en color dorado */
+    font-weight: 600 !important;
+}
+
+/* ================= ADAPTACIÓN MÓVIL PARA LA SECCIÓN 2 ================= */
+@media (max-width: 850px) {
+    .profile-grid { 
+        grid-template-columns: 1fr; 
+        gap: 3.5rem; 
+    }
+    .profile-image { 
+        grid-row: 1; /* En el celular, la foto del arquitecto aparece primero */
+    }
+    .profile-text { 
+        grid-row: 2; /* El texto va debajo de la foto */
+    }
+    .bio-paragraph {
+        font-size: 1.15rem !important; /* Ajuste sutil del tamaño para pantallas pequeñas */
+        text-align: left !important; /* Quitar el justificado en móvil mejora la lectura */
+    }
+}

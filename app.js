@@ -21,7 +21,7 @@ class UIComponent {
     }
 }
 
-// Clase: Animación de entrada (Hero)
+// Clase: Animación de entrada por tiempos (Hero)
 class EntranceAnimator extends UIComponent {
     constructor(selector, delayIncrement = 200) {
         super(selector);
@@ -38,7 +38,7 @@ class EntranceAnimator extends UIComponent {
     }
 }
 
-// Clase: Animación al hacer scroll (Sobre mí)
+// Clase: Animación al hacer scroll (Secciones / Títulos)
 class ScrollObserver {
     constructor(selector, options = {}) {
         this.elements = document.querySelectorAll(selector);
@@ -75,11 +75,9 @@ class PortfolioFilter {
 
         this.buttons.forEach(button => {
             button.addEventListener('click', (e) => {
-                // Cambiar botón activo
                 this.buttons.forEach(btn => btn.classList.remove('active'));
                 e.target.classList.add('active');
 
-                // Filtrar
                 const filterValue = e.target.getAttribute('data-filter');
                 this.filterGallery(filterValue);
             });
@@ -106,8 +104,32 @@ class PortfolioFilter {
     }
 }
 
+// NUEVA Clase: Animación específica para las barras de progreso de habilidades (SRP)
+class SkillsObserver {
+    constructor(selector) {
+        this.elements = document.querySelectorAll(selector);
+    }
+
+    init() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBar = entry.target.querySelector('.skill-progress');
+                    if (progressBar) {
+                        const targetProgress = progressBar.getAttribute('data-progress');
+                        progressBar.style.width = targetProgress; // Dispara la animación CSS
+                    }
+                    observer.unobserve(entry.target); // Detiene la observación tras animar
+                }
+            });
+        }, { threshold: 0.2 });
+
+        this.elements.forEach(el => observer.observe(el));
+    }
+}
+
 // --------------------------------------------------
-// 2. INICIALIZACIÓN (Encendemos las herramientas)
+// 2. INICIALIZACIÓN (Encendemos todos los componentes)
 // --------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -116,12 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroAnimator = new EntranceAnimator('.fade-in', 300);
     heroAnimator.init();
 
-    // 2. Encender animaciones de Scroll
+    // 2. Encender animaciones de Scroll (Títulos y bloques generales)
     const scrollReveal = new ScrollObserver('.reveal-scroll');
     scrollReveal.init();
 
     // 3. Encender filtros del Portafolio
     const portfolioFilter = new PortfolioFilter('.filter-btn', '.portfolio-item');
     portfolioFilter.init();
+
+    // 4. Encender animación interactiva de la barra de habilidades
+    const skillsAnimate = new SkillsObserver('.skill-group');
+    skillsAnimate.init();
 
 });

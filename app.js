@@ -75,13 +75,13 @@ class MouseParallax {
     }
 }
 
-// CLASE: Observador de Scroll para revelar elementos (Secciones 2, 3 y 4)
+// CLASE: Observador de Scroll para revelar elementos (Secciones Generales)
 class ScrollObserver extends UIAnimator {
     constructor(selector, options = {}) {
         super(selector);
         this.options = {
             root: null,
-            threshold: 0.1, 
+            threshold: 0.05, 
             ...options
         };
     }
@@ -102,7 +102,7 @@ class ScrollObserver extends UIAnimator {
     }
 }
 
-// NUEVA CLASE: Controlador del Acordeón Interactivo (Sección 4)
+// CLASE: Controlador del Acordeón Interactivo (Sección 4)
 class AccordionController extends UIAnimator {
     constructor(selector) {
         super(selector);
@@ -116,15 +116,60 @@ class AccordionController extends UIAnimator {
             
             header.addEventListener('click', () => {
                 const isActive = item.classList.contains('active');
-                
-                // Cierra todos los elementos primero
                 this.elements.forEach(el => el.classList.remove('active'));
 
-                // Si el que clickeamos NO estaba activo, lo abrimos.
                 if (!isActive) {
                     item.classList.add('active');
                 }
             });
+        });
+    }
+}
+
+// NUEVA CLASE: Sistema de Filtrado de Portafolio Avanzado (Sección 5 - SRP)
+class PortfolioFilter {
+    constructor(buttonsSelector, itemsSelector) {
+        this.buttons = document.querySelectorAll(buttonsSelector);
+        this.items = document.querySelectorAll(itemsSelector);
+    }
+
+    init() {
+        if (!this.buttons.length || !this.items.length) return;
+
+        this.buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Cambiar el botón activo visualmente
+                this.buttons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                const filterValue = e.target.getAttribute('data-filter');
+                this.animateFilter(filterValue);
+            });
+        });
+    }
+
+    animateFilter(filterValue) {
+        this.items.forEach(item => {
+            // Fase 1: Desvanecer los elementos hacia afuera
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.95) translateY(10px)';
+
+            setTimeout(() => {
+                const itemCategory = item.getAttribute('data-category');
+
+                // Fase 2: Decidir si se oculta o se muestra en base al filtro
+                if (filterValue === 'all' || itemCategory === filterValue) {
+                    item.style.display = 'block';
+                    
+                    // Pequeña pausa para permitir que el navegador registre el cambio de display
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1) translateY(0)';
+                    }, 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            }, 450); // Tiempo alineado con la transición de CSS
         });
     }
 }
@@ -142,12 +187,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroParallax = new MouseParallax('parallax-container', 'parallax-image', 15);
     heroParallax.init();
 
-    // Inicializaciones Sección 2 y 3 (Scroll Reveal general)
+    // Inicializaciones Sección 2, 3, 4 y 5 (Scroll Reveal unificado)
     const scrollAnimate = new ScrollObserver('.scroll-reveal');
     scrollAnimate.init();
 
     // Inicialización Sección 4 (Acordeón)
     const accordionUI = new AccordionController('.accordion-item');
     accordionUI.init();
+
+    // Inicialización Sección 5 (Nuevo - Filtros Portafolio)
+    const galleryFilter = new PortfolioFilter('.filter-btn', '.portfolio-item');
+    galleryFilter.init();
 
 });

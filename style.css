@@ -809,32 +809,63 @@ html {
     color: var(--accent);
 }
 
-/* ================= ADAPTACIÓN RESPONSIVA (MÓVILES) ================= */
+//* ================= ADAPTACIÓN RESPONSIVA Y REFINAMIENTO MÓVIL (ANTI-EFECTO LUPA) ================= */
 @media (max-width: 850px) {
-    /* Ajustes generales del sitio para móvil */
-    .hero-content { width: 100%; padding: 0 5%; text-align: center; }
-    .hero-visual { display: none; /* Ocultamos la foto grande en móvil para lectura limpia */ }
-    
-    .profile-container,
-    .resume-grid,
-    .contact-grid {
-        grid-template-columns: 1fr; /* Todo a una columna */
+    /* 1. ESTRUCTURA GLOBAL Y REDUCCIÓN DE ESPACIOS GIGANTES */
+    .profile-section, .resume-section, .skills-section, .portfolio-section, .contact-section {
+        padding: 5rem 5% !important; 
+    }
+
+    .profile-container, .resume-grid, .contact-grid {
+        grid-template-columns: 1fr; /* Todo a una columna en celular */
         gap: 4rem;
     }
 
-    .contact-title { font-size: 3.2rem; }
-    
-    .social-links {
-        flex-direction: column;
-        gap: 1.5rem;
+    /* 2. TÍTULOS PRINCIPALES MÁS DELICADOS */
+    .section-title {
+        font-size: 2.2rem !important; /* Adiós a los títulos gigantes */
+        margin-bottom: 2.5rem !important;
+        line-height: 1.2 !important;
     }
 
-    .contact-bottom {
-        flex-direction: column;
-        gap: 1.5rem;
-        text-align: center;
+    /* 3. TEXTOS DESCRIPTIVOS MÁS FINOS */
+    .bio-paragraph, .resume-desc, .accordion-inner p, p {
+        font-size: 1.05rem !important; /* Tamaño cómodo y de lectura elegante */
+        line-height: 1.6 !important;
     }
+    .bio-paragraph { text-align: left !important; }
+
+    .drop-cap::first-letter {
+        font-size: 4.5rem !important; /* La L inicial ajustada al nuevo tamaño */
+        margin-right: 0.8rem !important;
+    }
+
+    /* 4. SECCIÓN 2: ORDEN DE LA FOTO DEL PERFIL */
+    .profile-grid { 
+        grid-template-columns: 1fr; 
+        gap: 3.5rem; 
+    }
+    .profile-image { grid-row: 1; } /* La foto sale primero */
+    .profile-text { grid-row: 2; } /* El texto sale debajo */
+
+    /* 5. SECCIÓN 3: TRAYECTORIA */
+    .resume-item { padding: 2rem 0 !important; }
+    .resume-role { font-size: 1.3rem !important; margin-bottom: 0.5rem !important; }
+
+    /* 6. SECCIÓN 4: COMPETENCIAS (Corrigiendo el efecto lupa de la captura) */
+    .accordion-header { padding: 1.2rem 0 !important; gap: 1rem !important; }
+    .accordion-title { font-size: 1.15rem !important; padding-right: 1.5rem !important; }
+    .accordion-number { font-size: 0.95rem !important; }
+
+    /* 7. SECCIÓN 6: CONTACTO Y FOOTER */
+    .contact-title { font-size: 2.5rem !important; }
+    .contact-subtitle { font-size: 1rem !important; }
+    .vip-link { font-size: 1.15rem !important; }
+    .contact-grid { gap: 3rem !important; padding-bottom: 4rem !important; }
+    .social-links { flex-direction: column; gap: 1.5rem; }
+    .contact-bottom { flex-direction: column; gap: 1.5rem; text-align: center; }
 }
+6
 /* ================= CORRECCIÓN DE LEGIBILIDAD Y COLOR (ANTI-ABURRIMIENTO) ================= */
 
 /* 1. Letras más gruesas y negras (Legibilidad óptima en móviles) */
@@ -892,23 +923,7 @@ body, p, .bio-paragraph, .resume-desc {
     font-weight: 600 !important;
 }
 
-/* ================= ADAPTACIÓN MÓVIL PARA LA SECCIÓN 2 ================= */
-@media (max-width: 850px) {
-    .profile-grid { 
-        grid-template-columns: 1fr; 
-        gap: 3.5rem; 
-    }
-    .profile-image { 
-        grid-row: 1; /* En el celular, la foto del arquitecto aparece primero */
-    }
-    .profile-text { 
-        grid-row: 2; /* El texto va debajo de la foto */
-    }
-    .bio-paragraph {
-        font-size: 1.15rem !important; /* Ajuste sutil del tamaño para pantallas pequeñas */
-        text-align: left !important; /* Quitar el justificado en móvil mejora la lectura */
-    }
-}
+
 /* ================= RITMO VISUAL CROMÁTICO (FONDOS INTERCALADOS PAR / IMPAR) ================= */
 
 /* --- SECCIONES PARES: FONDO CLARO PURO (Secciones 2 y 4) --- */
@@ -990,23 +1005,7 @@ body, p,
     background-color: #B2905F !important; /* La línea subrayada se vuelve dorada */
 }
 
-/* ================= ADAPTACIÓN MÓVIL (SECCIÓN 2) ================= */
-@media (max-width: 850px) {
-    .profile-grid { 
-        grid-template-columns: 1fr; 
-        gap: 3.5rem; 
-    }
-    .profile-image { 
-        grid-row: 1; /* En móvil, la foto del arquitecto aparece primero */
-    }
-    .profile-text { 
-        grid-row: 2; /* El texto va debajo */
-    }
-    .bio-paragraph {
-        font-size: 1.15rem !important; 
-        text-align: left !important; 
-    }
-}
+
 /* ================= MENÚ HAMBURGUESA Y PANEL LATERAL (MÓVILES) ================= */
 
 /* Ocultar botón hamburguesa en computadoras */

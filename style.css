@@ -210,4 +210,57 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+/* ================= SECCIÓN 2: PERFIL PROFESIONAL ================= */
+.profile-section {
+    padding: 14rem 5%;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+}
+
+.container-narrow {
+    max-width: 750px; /* Ancho optimizado para lectura de formato revista */
+    width: 100%;
+}
+
+.bio-paragraph {
+    font-size: 1.25rem;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-bottom: 3.5rem;
+    font-weight: 300;
+    text-align: justify;
+}
+
+.bio-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+.bio-paragraph:first-of-type {
+    color: var(--text-main); /* Mayor contraste en la introducción */
+}
+
+/* Letra Capitular (Drop Cap) */
+.drop-cap::first-letter {
+    font-family: var(--font-heading);
+    font-size: 5.5rem;
+    float: left;
+    margin-right: 0.85rem;
+    line-height: 0.85;
+    color: var(--text-main);
+    font-weight: 400;
+}
+
+/* ================= CLASES DE UTILIDAD JS (Revelado por Scroll) ================= */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
 

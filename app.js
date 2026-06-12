@@ -50,3 +50,45 @@ document.addEventListener('DOMContentLoaded', () => {
     heroAnimator.init();
 
 });
+/**
+ * Clase: ScrollObserver
+ * Responsabilidad: Detectar elementos en el viewport y aplicarles una clase activa.
+ * Cumple SRP (Single Responsibility Principle) al manejar solo la lógica de detección.
+ */
+class ScrollObserver {
+    constructor(selector, options = {}) {
+        this.elements = document.querySelectorAll(selector);
+        this.options = {
+            root: null,
+            threshold: 0.2, // Se activa cuando el 20% del elemento es visible
+            ...options
+        };
+    }
+
+    init() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Una vez que aparece, dejamos de observarlo para ahorrar recursos
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, this.options);
+
+        this.elements.forEach(el => observer.observe(el));
+    }
+}
+
+// ================= INICIALIZACIÓN ACTUALIZADA =================
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Animaciones de entrada del Hero (Time-based)
+    const heroAnimator = new EntranceAnimator('.fade-in', 300);
+    heroAnimator.init();
+
+    // 2. Animaciones de revelado al bajar (Scroll-based)
+    const scrollReveal = new ScrollObserver('.reveal-scroll');
+    scrollReveal.init();
+
+});

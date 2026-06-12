@@ -492,18 +492,20 @@ p {
 }
 
 /* ================= ESTADOS ACTIVOS (Cuando se abre el acordeón) ================= */
-.accordion-item.active .accordion-content {
+/* Cambiamos '.active' por '.open' para evitar conflictos con el Scroll */
+.accordion-item.open .accordion-content {
     grid-template-rows: 1fr; /* Expande suavemente */
 }
 
-.accordion-item.active .accordion-title {
+.accordion-item.open .accordion-title {
     font-family: var(--font-heading);
     font-style: italic; /* El título se vuelve cursiva cuando está abierto */
 }
 
-.accordion-item.active .accordion-icon::after {
+.accordion-item.open .accordion-icon::after {
     transform: translateX(-50%) rotate(90deg); /* La línea vertical gira, formando un '-' */
 }
+
 /* ================= SECCIÓN 5: OBRAS SELECCIONADAS ================= */
 .portfolio-section {
     padding: 8rem 5% 12rem;

@@ -1007,3 +1007,83 @@ body, p,
         text-align: left !important; 
     }
 }
+/* ================= MENÚ HAMBURGUESA Y PANEL LATERAL (MÓVILES) ================= */
+
+/* Ocultar botón hamburguesa en computadoras */
+.hamburger-btn {
+    display: none;
+}
+
+@media (max-width: 850px) {
+    /* Diseño del botón de 3 rayas */
+    .hamburger-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 20px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1000; /* Asegura que la hamburguesa esté siempre encima de todo */
+    }
+
+    .hamburger-line {
+        width: 100%;
+        height: 2px;
+        background-color: #FFFFFF;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* Transformación de las 3 rayas a una "X" (Cuando tiene la clase 'open') */
+    .hamburger-btn.open .hamburger-line:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    .hamburger-btn.open .hamburger-line:nth-child(2) {
+        opacity: 0; /* La línea del centro desaparece */
+    }
+    .hamburger-btn.open .hamburger-line:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* Diseño del Panel Lateral Oculto */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Escondido fuera de la pantalla hacia la derecha */
+        width: 75%;
+        max-width: 350px;
+        height: 100vh;
+        background-color: #1A1A1A; /* Negro carbón premium */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 999; /* Por debajo del botón hamburguesa */
+        box-shadow: -15px 0 30px rgba(0,0,0,0.5); /* Sombra elegante */
+    }
+
+    /* Estado abierto: el panel se desliza hacia adentro */
+    .nav-menu.open {
+        right: 0;
+    }
+    
+    /* Reajuste de los enlaces dentro del panel para que se vean grandes y centrados */
+    .cinematic-nav .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+    }
+    .cinematic-nav .nav-links a { 
+        font-size: 1.3rem; 
+        color: #FFFFFF;
+    }
+    .cinematic-nav .nav-contact { 
+        font-size: 1.3rem; 
+        margin-top: 1rem; 
+        color: #B2905F; /* Destacamos el contacto en dorado */
+        border-color: #B2905F;
+    }
+}

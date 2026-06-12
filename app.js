@@ -4,7 +4,11 @@
  * ==========================================
  */
 
-// 1. CLASE BASE: Componente genérico de UI (Open/Closed Principle)
+// --------------------------------------------------
+// 1. CLASES (Las herramientas)
+// --------------------------------------------------
+
+// CLASE BASE: Componente genérico de UI
 class UIAnimator {
     constructor(selector) {
         this.elements = document.querySelectorAll(selector);
@@ -14,7 +18,7 @@ class UIAnimator {
     }
 }
 
-// 2. CLASE: Animación de textos en cascada (Hero)
+// CLASE: Animación de textos en cascada (Hero)
 class TextSequenceAnimator extends UIAnimator {
     constructor(selector, delayIncrement = 250) {
         super(selector);
@@ -33,7 +37,7 @@ class TextSequenceAnimator extends UIAnimator {
     }
 }
 
-// 3. CLASE: Efecto Parallax interactivo con el ratón
+// CLASE: Efecto Parallax interactivo con el ratón (Hero)
 class MouseParallax {
     constructor(containerId, targetId, intensity = 20) {
         this.container = document.getElementById(containerId);
@@ -71,13 +75,13 @@ class MouseParallax {
     }
 }
 
-// 4. CLASE NUEVA: Observador de Scroll para revelar elementos (Single Responsibility Principle)
+// CLASE: Observador de Scroll para revelar elementos (Secciones 2, 3 y 4)
 class ScrollObserver extends UIAnimator {
     constructor(selector, options = {}) {
         super(selector);
         this.options = {
             root: null,
-            threshold: 0.1, // Se activa cuando el 10% del párrafo entra en pantalla
+            threshold: 0.1, 
             ...options
         };
     }
@@ -89,7 +93,7 @@ class ScrollObserver extends UIAnimator {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Animación de un solo sentido
+                    observer.unobserve(entry.target);
                 }
             });
         }, this.options);
@@ -98,11 +102,37 @@ class ScrollObserver extends UIAnimator {
     }
 }
 
-/**
- * ==========================================
- * INICIALIZACIÓN
- * ==========================================
- */
+// NUEVA CLASE: Controlador del Acordeón Interactivo (Sección 4)
+class AccordionController extends UIAnimator {
+    constructor(selector) {
+        super(selector);
+    }
+
+    init() {
+        if (!this.elements.length) return;
+
+        this.elements.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            
+            header.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Cierra todos los elementos primero
+                this.elements.forEach(el => el.classList.remove('active'));
+
+                // Si el que clickeamos NO estaba activo, lo abrimos.
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    }
+}
+
+// --------------------------------------------------
+// 2. INICIALIZACIÓN (Encendemos las herramientas)
+// --------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', () => {
     
     // Inicializaciones Sección 1
@@ -112,8 +142,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroParallax = new MouseParallax('parallax-container', 'parallax-image', 15);
     heroParallax.init();
 
-    // Inicialización Sección 2 (Nuevo)
+    // Inicializaciones Sección 2 y 3 (Scroll Reveal general)
     const scrollAnimate = new ScrollObserver('.scroll-reveal');
     scrollAnimate.init();
+
+    // Inicialización Sección 4 (Acordeón)
+    const accordionUI = new AccordionController('.accordion-item');
+    accordionUI.init();
 
 });

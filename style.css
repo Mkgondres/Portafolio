@@ -23,8 +23,8 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ================= NAVEGACIÓN ================= */
-.navbar {
+/* ================= NAVEGACIÓN (Cinematográfica) ================= */
+.navbar.cinematic-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,170 +33,185 @@ body {
     width: 100%;
     top: 0;
     z-index: 100;
+    color: #FFFFFF; /* Texto blanco puro sobre el fondo fotográfico */
 }
 
-.logo {
+.cinematic-nav .logo {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: 1px;
 }
 
-.nav-links {
+.cinematic-nav .nav-links {
     display: flex;
     gap: 3rem;
 }
 
-.nav-links a {
+.cinematic-nav .nav-links a {
     text-decoration: none;
-    color: var(--text-main);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     position: relative;
+    transition: color 0.3s ease;
 }
 
-.nav-links a::after {
+.cinematic-nav .nav-links a::after {
     content: '';
     position: absolute;
     width: 0;
     height: 1px;
     bottom: -4px;
     left: 0;
-    background-color: var(--text-main);
+    background-color: #FFFFFF;
     transition: width 0.3s ease;
 }
 
-.nav-links a:hover::after {
+.cinematic-nav .nav-links a:hover {
+    color: #FFFFFF;
+}
+
+.cinematic-nav .nav-links a:hover::after {
     width: 100%;
 }
 
-.nav-contact {
+.cinematic-nav .nav-contact {
     text-decoration: none;
-    color: var(--text-main);
+    color: #FFFFFF;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    border-bottom: 1px solid var(--text-main);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
     padding-bottom: 2px;
+    transition: border-color 0.3s ease;
 }
 
-/* ================= SECCIÓN HERO EDITORIAL ================= */
-.editorial-hero {
-    height: 100vh;
-    display: flex;
-    width: 100%;
+.cinematic-nav .nav-contact:hover {
+    border-color: #FFFFFF;
 }
 
-/* --- Lado Izquierdo (Textos) --- */
-.hero-content {
-    width: 55%;
-    display: flex;
-    align-items: center;
-    padding: 0 8% 0 10%;
-}
-
-.content-wrapper {
-    max-width: 600px;
-    margin-top: 5rem;
-}
-
-.hero-tag {
-    display: block;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-    border-left: 1px solid var(--text-main);
-    padding-left: 1rem;
-}
-
-.hero-title {
-    font-family: var(--font-heading);
-    /* clamp() permite que la fuente sea gigante en PC y se achique suavemente en móvil */
-    font-size: clamp(4rem, 8vw, 7.5rem); 
-    line-height: 1;
-    font-weight: 400;
-    margin-bottom: 2.5rem;
-    letter-spacing: -2px;
-}
-
-.hero-desc {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: var(--text-muted);
-    margin-bottom: 3.5rem;
-    max-width: 450px;
-    font-weight: 300;
-}
-
-/* Enlace "Conocer más" */
-.btn-editorial {
-    text-decoration: none;
-    color: var(--text-main);
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    font-style: italic;
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
+/* ================= SECCIÓN 1: HERO CINEMATOGRÁFICO ================= */
+.hero-cinematic {
     position: relative;
-    padding-bottom: 5px;
+    height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #0d0f12; /* Color de respaldo mientras carga la imagen */
 }
 
-.btn-editorial::after {
-    content: '';
+/* Contenedor del fondo */
+.hero-bg {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     width: 100%;
-    height: 1px;
-    background-color: var(--text-main);
-    transform: scaleX(1);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-}
-
-.btn-editorial:hover::after {
-    transform: scaleX(0);
-    transform-origin: right;
-}
-
-.btn-editorial span {
-    font-style: normal;
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-}
-
-.btn-editorial:hover span {
-    transform: translateY(5px);
-}
-
-/* --- Lado Derecho (Imagen) --- */
-.hero-visual {
-    width: 45%;
-    height: 100vh;
-    padding: 2rem 2rem 2rem 0;
-    overflow: hidden;
-}
-
-.image-wrapper {
-    width: 100%;
     height: 100%;
-    background-color: #EAE8E3; /* Color de fondo mientras carga la imagen */
-    overflow: hidden;
-    /* La transición se controla por JS, pero añadimos will-change para rendimiento */
-    will-change: transform;
+    z-index: 1;
 }
 
-.image-wrapper img {
+.hero-bg img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Escalamos la imagen un poco para tener margen al hacer el efecto Parallax */
-    transform: scale(1.05); 
+    /* Animación Ken Burns: Un acercamiento ultra lento para dar vida a la foto estática */
+    animation: kenBurns 25s ease-out infinite alternate;
 }
+
+@keyframes kenBurns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+}
+
+/* Filtro oscuro para garantizar que el texto blanco siempre se lea */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.6) 100%);
+}
+
+/* Textos Centrales Monumentales */
+.hero-content-center {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 5%;
+}
+
+.hero-content-center .hero-tag {
+    display: inline-block;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2.5rem;
+}
+
+.hero-content-center .hero-title {
+    font-family: var(--font-heading);
+    /* Texto gigantesco que se adapta a pantallas pequeñas */
+    font-size: clamp(4rem, 10vw, 10rem); 
+    line-height: 0.9;
+    font-weight: 400;
+    letter-spacing: -3px;
+    margin-bottom: 5rem;
+}
+
+/* Botón de Scroll animado */
+.hero-scroll a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transition: color 0.3s ease;
+}
+
+.hero-scroll a:hover {
+    color: #FFFFFF;
+}
+
+.hero-scroll a span {
+    font-size: 1.5rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(8px); }
+    60% { transform: translateY(4px); }
+}
+
+/* Adaptación para móviles del Hero (Agregar al final del @media si ya tienes uno) */
+@media (max-width: 850px) {
+    .cinematic-nav {
+        flex-direction: column;
+        padding: 1.5rem 5%;
+        gap: 1.5rem;
+    }
+    .cinematic-nav .nav-links {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
 
 /* ================= CLASES DE UTILIDAD JS (Animaciones) ================= */
 .reveal-text {

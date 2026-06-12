@@ -133,8 +133,21 @@ p, .resume-desc, .accordion-inner p { font-size: 1.15rem; line-height: 1.8; colo
 .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(13, 15, 18, 0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .lightbox.active { opacity: 1; pointer-events: auto; }
 .lightbox-content { position: relative; max-width: 90%; max-height: 85vh; display: flex; flex-direction: column; align-items: center; }
-.lightbox-content img { max-width: 100%; max-height: 75vh; object-fit: contain; box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-radius: 4px; }
-.lightbox-caption { margin-top: 1.5rem; text-align: center; color: #FFFFFF; }
+/* Se agrega la transición suave al CSS */
+.lightbox-content img { 
+    max-width: 100%; max-height: 75vh; object-fit: contain; box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-radius: 4px; 
+    transition: opacity 0.3s ease-in-out; 
+}
+.lightbox-caption { 
+    margin-top: 1.5rem; text-align: center; color: #FFFFFF; 
+    transition: opacity 0.3s ease-in-out; 
+}
+
+/* Esta clase es la que usará JS para "apagar la luz" */
+.fade-out { 
+    opacity: 0 !important; 
+}
+
 .lightbox-caption h3 { font-family: var(--font-heading); font-size: 2rem; font-weight: 400; font-style: italic; margin-bottom: 0.3rem; }
 .lightbox-caption span { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); }
 .lightbox-close { position: absolute; top: 30px; right: 40px; font-size: 3rem; color: #FFFFFF; cursor: pointer; transition: color 0.3s ease; line-height: 1; z-index: 10000; }

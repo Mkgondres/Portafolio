@@ -131,7 +131,7 @@ class AccordionController extends UIAnimator {
 }
 
 
-// NUEVA CLASE: Sistema de Filtrado de Portafolio Avanzado (Sección 5 - SRP)
+// CLASE: Sistema de Filtrado de Portafolio Avanzado (Sección 5 - SRP)
 class PortfolioFilter {
     constructor(buttonsSelector, itemsSelector) {
         this.buttons = document.querySelectorAll(buttonsSelector);
@@ -179,6 +179,52 @@ class PortfolioFilter {
     }
 }
 
+// NUEVA CLASE: Controlador del Menú Hamburguesa para Móviles
+class MobileMenu extends UIAnimator {
+    constructor(btnSelector, menuSelector) {
+        super(btnSelector); // Usamos el botón como elemento principal
+        this.btn = document.querySelector(btnSelector);
+        this.menu = document.querySelector(menuSelector);
+        this.links = document.querySelectorAll(`${menuSelector} a`);
+    }
+
+    init() {
+        if (!this.btn || !this.menu) return;
+
+        // 1. Abrir/Cerrar al hacer clic en la hamburguesa
+        this.btn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita que el clic dispare el evento de cerrar el documento
+            this.toggleMenu();
+        });
+
+        // 2. Cerrar al hacer clic en cualquier lugar FUERA del menú
+        document.addEventListener('click', (e) => {
+            const isMenuOpen = this.menu.classList.contains('open');
+            const clickedInsideMenu = this.menu.contains(e.target);
+            const clickedOnButton = this.btn.contains(e.target);
+
+            if (isMenuOpen && !clickedInsideMenu && !clickedOnButton) {
+                this.closeMenu();
+            }
+        });
+
+        // 3. Cerrar automáticamente cuando el usuario haga clic en un enlace (Perfil, Obras, etc.)
+        this.links.forEach(link => {
+            link.addEventListener('click', () => this.closeMenu());
+        });
+    }
+
+    toggleMenu() {
+        this.btn.classList.toggle('open');
+        this.menu.classList.toggle('open');
+    }
+
+    closeMenu() {
+        this.btn.classList.remove('open');
+        this.menu.classList.remove('open');
+    }
+}
+
 // --------------------------------------------------
 // 2. INICIALIZACIÓN (Encendemos las herramientas)
 // --------------------------------------------------
@@ -200,8 +246,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const accordionUI = new AccordionController('.accordion-item');
     accordionUI.init();
 
-    // Inicialización Sección 5 (Nuevo - Filtros Portafolio)
+    // Inicialización Sección 5 (Filtros Portafolio)
     const galleryFilter = new PortfolioFilter('.filter-btn', '.portfolio-item');
     galleryFilter.init();
 
+    // Inicialización del Menú Móvil (NUEVO)
+    const mobileNav = new MobileMenu('.hamburger-btn', '.nav-menu');
+    mobileNav.init();
+
 });
+

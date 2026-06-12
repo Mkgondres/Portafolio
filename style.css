@@ -909,3 +909,18 @@ body, p, .bio-paragraph, .resume-desc {
         text-align: left !important; /* Quitar el justificado en móvil mejora la lectura */
     }
 }
+/* ================= RITMO VISUAL CROMÁTICO (FONDOS INTERCALADOS PAR / IMPAR) ================= */
+
+/* --- SECCIONES PARES: FONDO CLARO PURO (Secciones 2 y 4) --- */
+
+.profile-section, /* Sección 2: Perfil Profesional */
+.skills-section   /* Sección 4: Competencias de Autor */ {
+    background-color: #FFFFFF !important; /* Blanco puro cristalino para máxima limpieza */
+}
+
+/* --- SECCIONES IMPARES: FONDO BEIGE MEDIO (Secciones 3 y 5) --- */
+
+.resume-section,    /* Sección 3: Trayectoria y Formación */
+.portfolio-section  /* Sección 5: Obras Seleccionadas */ {
+    background-color: #F2F0EC !important; /* Beige medio sofisticado que marca el cambio de ritmo */
+}

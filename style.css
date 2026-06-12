@@ -1,9 +1,9 @@
-/* ================= VARIABLES Y RESET ================= */
+/* ================= VARIABLES Y RESET GLOBAL (Actualizado: Más grande y negro puro) ================= */
 :root {
     --bg-color: #F9F8F6; /* Blanco roto / Crema muy sutil */
-    --text-main: #1A1A1A; /* Negro carbón (no negro puro para menos fatiga visual) */
-    --text-muted: #666666; /* Gris elegante */
-    --accent: #B09B71; /* Un dorado opaco/bronce para pequeños detalles */
+    --text-main: #000000; /* Negro absoluto/puro para títulos y textos principales */
+    --text-muted: #1A1A1A; /* Negro carbón muy intenso para textos secundarios (máximo contraste) */
+    --accent: #9A845A; /* Un dorado bronce un poco más oscuro para que resalte más */
     
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Lato', sans-serif;
@@ -19,8 +19,17 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     font-family: var(--font-body);
+    /* Aumentamos la base tipográfica global de la página */
+    font-size: 18px; 
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+}
+
+/* Ajuste general para que TODOS los párrafos del sitio sean más grandes y legibles */
+p {
+    font-size: 1.2rem; /* Hace que todos los textos descriptivos crezcan un poco más */
+    line-height: 1.8;
+    color: var(--text-muted);
 }
 
 /* ================= NAVEGACIÓN (Cinematográfica) ================= */

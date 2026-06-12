@@ -1,10 +1,14 @@
 /**
  * ==========================================
  * Principios SOLID y POO aplicados:
- * 1. Single Responsibility Principle (SRP): Cada clase tiene un solo trabajo.
- * 2. Open/Closed Principle (OCP): La clase base UIComponent puede extenderse sin modificarse.
+ * 1. Single Responsibility Principle (SRP)
+ * 2. Open/Closed Principle (OCP)
  * ==========================================
  */
+
+// --------------------------------------------------
+// 1. CLASES (Las herramientas)
+// --------------------------------------------------
 
 // Clase Base: Interfaz genérica para componentes de UI
 class UIComponent {
@@ -17,23 +21,16 @@ class UIComponent {
     }
 }
 
-// Clase Hija: Encargada ÚNICAMENTE de las animaciones de entrada (SRP)
+// Clase: Animación de entrada (Hero)
 class EntranceAnimator extends UIComponent {
     constructor(selector, delayIncrement = 200) {
         super(selector);
         this.delayIncrement = delayIncrement;
     }
 
-    // Implementación del método obligatorio
     init() {
-        this.animateElements();
-    }
-
-    animateElements() {
         if (!this.elements) return;
-
         this.elements.forEach((element, index) => {
-            // Añadimos un retraso progresivo (stagger effect) para que no aparezcan de golpe
             setTimeout(() => {
                 element.classList.add('visible');
             }, index * this.delayIncrement);
@@ -41,26 +38,13 @@ class EntranceAnimator extends UIComponent {
     }
 }
 
-// ================= INICIALIZACIÓN =================
-// Se ejecuta cuando el DOM está completamente cargado
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // Instanciamos el animador específicamente para los elementos ".fade-in" del Hero
-    const heroAnimator = new EntranceAnimator('.fade-in', 300);
-    heroAnimator.init();
-
-});
-/**
- * Clase: ScrollObserver
- * Responsabilidad: Detectar elementos en el viewport y aplicarles una clase activa.
- * Cumple SRP (Single Responsibility Principle) al manejar solo la lógica de detección.
- */
+// Clase: Animación al hacer scroll (Sobre mí)
 class ScrollObserver {
     constructor(selector, options = {}) {
         this.elements = document.querySelectorAll(selector);
         this.options = {
             root: null,
-            threshold: 0.2, // Se activa cuando el 20% del elemento es visible
+            threshold: 0.2,
             ...options
         };
     }
@@ -70,7 +54,6 @@ class ScrollObserver {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    // Una vez que aparece, dejamos de observarlo para ahorrar recursos
                     observer.unobserve(entry.target);
                 }
             });
@@ -80,15 +63,65 @@ class ScrollObserver {
     }
 }
 
-// ================= INICIALIZACIÓN ACTUALIZADA =================
+// Clase: Sistema de filtrado (Portafolio)
+class PortfolioFilter {
+    constructor(buttonsSelector, itemsSelector) {
+        this.buttons = document.querySelectorAll(buttonsSelector);
+        this.items = document.querySelectorAll(itemsSelector);
+    }
+
+    init() {
+        if (!this.buttons || !this.items) return;
+
+        this.buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Cambiar botón activo
+                this.buttons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Filtrar
+                const filterValue = e.target.getAttribute('data-filter');
+                this.filterGallery(filterValue);
+            });
+        });
+    }
+
+    filterGallery(filterValue) {
+        this.items.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                    item.style.display = 'block';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1)';
+                    }, 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            }, 400); 
+        });
+    }
+}
+
+// --------------------------------------------------
+// 2. INICIALIZACIÓN (Encendemos las herramientas)
+// --------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Animaciones de entrada del Hero (Time-based)
+    // 1. Encender animaciones del Hero
     const heroAnimator = new EntranceAnimator('.fade-in', 300);
     heroAnimator.init();
 
-    // 2. Animaciones de revelado al bajar (Scroll-based)
+    // 2. Encender animaciones de Scroll
     const scrollReveal = new ScrollObserver('.reveal-scroll');
     scrollReveal.init();
+
+    // 3. Encender filtros del Portafolio
+    const portfolioFilter = new PortfolioFilter('.filter-btn', '.portfolio-item');
+    portfolioFilter.init();
 
 });

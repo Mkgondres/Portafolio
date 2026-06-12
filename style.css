@@ -348,9 +348,34 @@ p, .resume-desc, .accordion-inner p {
     }
 
 
-    /* --- SECCIÓN 3: TRAYECTORIA --- */
+    /* --- SECCIÓN 3: TRAYECTORIA (Diseño Carrusel Premium - Swipe) --- */
+    
+    /* 1. Ajuste de letras y espacios internos */
     .resume-item { padding: 2rem 0 !important; }
     .resume-role { font-size: 1.3rem !important; margin-bottom: 0.5rem !important; }
+
+    /* 2. Motor del Carrusel (Deslizamiento horizontal) */
+    .resume-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important; /* Activa el deslizamiento horizontal */
+        scroll-snap-type: x mandatory !important; /* Efecto magnético al deslizar */
+        gap: 1.5rem !important;
+        padding-bottom: 2rem !important;
+        -webkit-overflow-scrolling: touch !important; /* Fluidez en iPhone */
+        scrollbar-width: none !important; /* Oculta la barra en Firefox */
+    }
+    
+    /* Oculta la barra de scroll en Chrome/Safari/Edge para un look más limpio */
+    .resume-grid::-webkit-scrollbar {
+        display: none !important; 
+    }
+    
+    /* 3. Comportamiento de cada columna (Ocupa el 90% para poder respirar) */
+    .resume-column {
+        min-width: 90% !important; 
+        scroll-snap-align: center !important; /* Se centra automáticamente al soltar el dedo */
+    }
 
     /* --- SECCIÓN 4: COMPETENCIAS --- */
     .accordion-header { padding: 1.2rem 0 !important; gap: 1rem !important; }

@@ -136,7 +136,7 @@ p, .resume-desc, .accordion-inner p {
 .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease, transform 1.2s ease; }
 .scroll-reveal.active { opacity: 1; transform: translateY(0); }
 
-/* ================= SECCIÓN 2: PERFIL PROFESIONAL (Fondo Blanco) ================= */
+/* ================= SECCIÓN 2: PERFIL PROFESIONAL ================= */
 .profile-section { padding: 14rem 5%; background-color: #FFFFFF; display: flex; justify-content: center; }
 .container-wide { max-width: 1200px; width: 100%; margin: 0 auto; }
 .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
@@ -154,15 +154,23 @@ p, .resume-desc, .accordion-inner p {
 
 .profile-image img { width: 100%; height: auto; object-fit: cover; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
 
-/* ================= SECCIÓN 3: TRAYECTORIA (Fondo Beige) ================= */
+/* ================= SECCIÓN 3: TRAYECTORIA Y FORMACIÓN ================= */
 .resume-section { padding: 8rem 5% 12rem; background-color: #F2F0EC; }
 .resume-container { max-width: 1200px; margin: 0 auto; }
-.resume-header { margin-bottom: 6rem; text-align: center; }
 
-.section-title {
-    font-family: var(--font-heading); font-size: clamp(3rem, 5vw, 4.5rem);
-    font-weight: 400; color: var(--text-main); letter-spacing: -1px;
+/* Estilo MAJESTUOSO para los títulos de cada columna (Reemplazan al título principal) */
+.column-title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 400;
+    color: var(--text-main);
+    letter-spacing: -1px;
+    margin-bottom: 3rem;
+    line-height: 1.1;
 }
+
+/* Ocultar indicadores del carrusel en computadora */
+.carousel-indicators { display: none; }
 
 .resume-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; }
 .resume-column { display: flex; flex-direction: column; }
@@ -175,10 +183,15 @@ p, .resume-desc, .accordion-inner p {
 .resume-entity { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); margin-bottom: 1.2rem; font-weight: 600; }
 .resume-desc { max-width: 90%; }
 
-/* ================= SECCIÓN 4: COMPETENCIAS (Fondo Blanco) ================= */
+/* ================= SECCIÓN 4: COMPETENCIAS ================= */
 .skills-section { padding: 8rem 5% 12rem; background-color: #FFFFFF; }
 .skills-container { max-width: 1000px; margin: 0 auto; }
 .skills-header { margin-bottom: 5rem; }
+
+.section-title {
+    font-family: var(--font-heading); font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 400; color: var(--text-main); letter-spacing: -1px;
+}
 
 .accordion-wrapper { display: flex; flex-direction: column; }
 .accordion-item { border-bottom: 1px solid var(--accent); }
@@ -205,7 +218,7 @@ p, .resume-desc, .accordion-inner p {
 .accordion-item.open .accordion-title { font-family: var(--font-heading); font-style: italic; }
 .accordion-item.open .accordion-icon::after { transform: translateX(-50%) rotate(90deg); }
 
-/* ================= SECCIÓN 5: OBRAS (Fondo Beige) ================= */
+/* ================= SECCIÓN 5: OBRAS ================= */
 .portfolio-section { padding: 8rem 5% 12rem; background-color: #F2F0EC; }
 .portfolio-container { max-width: 1400px; margin: 0 auto; }
 .portfolio-header { display: flex; flex-direction: column; align-items: center; gap: 3rem; margin-bottom: 6rem; text-align: center; }
@@ -258,31 +271,25 @@ p, .resume-desc, .accordion-inner p {
 .back-to-top { color: var(--bg-color); text-decoration: none; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.85rem; transition: color 0.3s ease; }
 .back-to-top:hover { color: var(--accent); }
 
-/* ================= ADAPTACIÓN MÓVIL MAESTRA (Resolviendo zoom, sombra y espacios) ================= */
-
-/* Botón hamburguesa oculto en PC */
+/* ================= ADAPTACIÓN MÓVIL MAESTRA ================= */
 .hamburger-btn { display: none; }
 
 @media (max-width: 850px) {
     
-    /* --- ESTRUCTURA Y ESPACIOS --- */
+    /* --- ESTRUCTURA GENERAL Y ANTI-LUPA --- */
     .profile-section, .resume-section, .skills-section, .portfolio-section, .contact-section {
-        padding: 5rem 5% !important; /* Adiós espacios muertos */
+        padding: 5rem 5% !important; 
     }
-    .profile-container, .resume-grid, .portfolio-grid, .contact-grid {
-        grid-template-columns: 1fr !important; /* Todo en 1 columna */
-        gap: 4rem !important;
+    .profile-container, .portfolio-grid, .contact-grid {
+        grid-template-columns: 1fr !important; gap: 4rem !important;
     }
-
-    /* --- ANTI-EFECTO LUPA (Textos y Títulos) --- */
     .section-title { font-size: 2.2rem !important; margin-bottom: 2.5rem !important; line-height: 1.2 !important; }
     p, .bio-paragraph, .resume-desc, .accordion-inner p { font-size: 1.05rem !important; line-height: 1.6 !important; }
     .bio-paragraph { text-align: left !important; }
     .drop-cap::first-letter { font-size: 4.5rem !important; margin-right: 0.8rem !important; }
 
-    /* --- NAVEGACIÓN (Corrección de Sombra Sangrante y Animación) --- */
+    /* --- NAVEGACIÓN Y MENÚ HAMBURGUESA --- */
     .cinematic-nav { padding: 1.5rem 5%; }
-    
     .hamburger-btn { display: flex; flex-direction: column; justify-content: space-between; width: 30px; height: 20px; background: transparent; border: none; cursor: pointer; z-index: 1000; }
     .hamburger-line { width: 100%; height: 2px; background-color: #FFFFFF; transition: transform 0.3s ease, opacity 0.3s ease; }
     .hamburger-btn.open .hamburger-line:nth-child(1) { transform: translateY(9px) rotate(45deg); }
@@ -292,90 +299,62 @@ p, .resume-desc, .accordion-inner p {
     .nav-menu {
         position: fixed; top: 0; right: 0; width: 75%; max-width: 350px; height: 100vh;
         background-color: #1A1A1A; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3rem;
-        transform: translateX(100%); /* Oculto sin deformar pantalla */
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-        z-index: 999;
-        box-shadow: none; /* LA CLAVE: Sin sombra cuando está cerrado */
+        transform: translateX(100%); transition: transform 0.4s ease, box-shadow 0.4s ease; z-index: 999; box-shadow: none; 
     }
-    .nav-menu.open {
-        transform: translateX(0);
-        box-shadow: -15px 0 30px rgba(0,0,0,0.5); /* La sombra solo aparece al abrir el menú */
-    }
-    
+    .nav-menu.open { transform: translateX(0); box-shadow: -15px 0 30px rgba(0,0,0,0.5); }
     .cinematic-nav .nav-links { flex-direction: column; align-items: center; gap: 2.5rem; }
     .cinematic-nav .nav-links a { font-size: 1.3rem; color: #FFFFFF; }
     .cinematic-nav .nav-contact { font-size: 1.3rem; margin-top: 1rem; color: var(--accent); border-color: var(--accent); }
 
-        /* --- SECCIÓN 2: PERFIL (Fijando el texto comprimido y la foto) --- */
-    .profile-grid { 
-        display: flex !important; /* Cambiamos a Flexbox para control total del orden en móvil */
-        flex-direction: column !important;
-        gap: 2.5rem !important; 
-    }
-    
-    /* 1. La foto va primero y a pantalla completa */
-    .profile-image { 
-        order: 1 !important; 
-        width: 100% !important; 
-    }
-    .profile-image img { 
-        width: 100% !important; 
-        max-height: 450px !important; /* Altura imponente pero sin ocupar toda la pantalla */
-        object-fit: cover !important; 
-        border-radius: 4px !important; 
-    }
+    /* --- SECCIÓN 2: PERFIL --- */
+    .profile-grid { display: flex !important; flex-direction: column !important; gap: 2.5rem !important; }
+    .profile-image { order: 1 !important; width: 100% !important; }
+    .profile-image img { width: 100% !important; max-height: 450px !important; object-fit: cover !important; border-radius: 4px !important; }
+    .profile-text { order: 2 !important; width: 100% !important; display: block !important; }
+    .bio-paragraph { width: 100% !important; font-size: 1.1rem !important; line-height: 1.6 !important; text-align: left !important; }
+    .drop-cap::first-letter { font-size: 3.8rem !important; margin-right: 0.6rem !important; line-height: 0.8 !important; }
 
-    /* 2. El texto va debajo, libre y a lo ancho de toda la pantalla */
-    .profile-text { 
-        order: 2 !important; 
-        width: 100% !important; 
-        display: block !important;
-    }
-    
-    /* 3. Reparación del texto aplastado */
-    .bio-paragraph { 
-        width: 100% !important; 
-        font-size: 1.1rem !important; /* Tamaño nítido, idéntico a este chat */
-        line-height: 1.6 !important; 
-        text-align: left !important; 
-    }
-    
-    /* 4. Ajuste de la letra "L" gigante para que no asfixie a los párrafos */
-    .drop-cap::first-letter { 
-        font-size: 3.8rem !important; /* Más discreta para la pantalla del celular */
-        margin-right: 0.6rem !important; 
-        line-height: 0.8 !important; 
-    }
-
-
-    /* --- SECCIÓN 3: TRAYECTORIA (Diseño Carrusel Premium - Swipe) --- */
-    
-    /* 1. Ajuste de letras y espacios internos */
+    /* --- SECCIÓN 3: TRAYECTORIA Y FORMACIÓN (Diseño Premium 100% + Enfoque Visual) --- */
     .resume-item { padding: 2rem 0 !important; }
     .resume-role { font-size: 1.3rem !important; margin-bottom: 0.5rem !important; }
 
-    /* 2. Motor del Carrusel (Deslizamiento horizontal) */
     .resume-grid {
         display: flex !important;
         flex-direction: row !important;
-        overflow-x: auto !important; /* Activa el deslizamiento horizontal */
-        scroll-snap-type: x mandatory !important; /* Efecto magnético al deslizar */
-        gap: 1.5rem !important;
-        padding-bottom: 2rem !important;
-        -webkit-overflow-scrolling: touch !important; /* Fluidez en iPhone */
-        scrollbar-width: none !important; /* Oculta la barra en Firefox */
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 2rem !important;
+        padding-bottom: 1rem !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
     }
+    .resume-grid::-webkit-scrollbar { display: none !important; }
     
-    /* Oculta la barra de scroll en Chrome/Safari/Edge para un look más limpio */
-    .resume-grid::-webkit-scrollbar {
-        display: none !important; 
-    }
-    
-    /* 3. Comportamiento de cada columna (Ocupa el 90% para poder respirar) */
     .resume-column {
-        min-width: 90% !important; 
-        scroll-snap-align: center !important; /* Se centra automáticamente al soltar el dedo */
+        min-width: 100% !important; 
+        scroll-snap-align: center !important;
+        transition: opacity 0.4s ease !important;
     }
+
+    /* Títulos ascendidos para el carrusel */
+    .column-title {
+        font-size: 2.5rem !important;
+        margin-bottom: 2rem !important;
+        text-align: left !important;
+    }
+
+    /* Líneas Indicadoras */
+    .carousel-indicators {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 0.8rem !important;
+        margin-top: 2.5rem !important;
+    }
+    .indicator-dash {
+        width: 25px; height: 3px; background-color: rgba(0, 0, 0, 0.15);
+        border-radius: 2px; transition: background-color 0.3s ease, width 0.3s ease;
+    }
+    .indicator-dash.active { background-color: var(--accent) !important; width: 40px; }
 
     /* --- SECCIÓN 4: COMPETENCIAS --- */
     .accordion-header { padding: 1.2rem 0 !important; gap: 1rem !important; }
@@ -397,4 +376,3 @@ p, .resume-desc, .accordion-inner p {
     .social-links { flex-direction: column; gap: 1.5rem; }
     .contact-bottom { flex-direction: column; gap: 1.5rem; text-align: center; }
 }
-

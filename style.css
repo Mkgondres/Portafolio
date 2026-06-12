@@ -644,3 +644,61 @@ body {
 html {
     scroll-behavior: smooth;
 }
+/* ================= RESPONSIVE (Adaptación para Móviles / S23) ================= */
+@media (max-width: 850px) {
+    /* 1. Header y Navegación */
+    .header {
+        flex-direction: column;
+        padding: 1rem 5%;
+        gap: 1rem;
+    }
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    .btn-outline { padding: 0.5rem 1rem; }
+
+    /* 2. Hero Section */
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 140px;
+        height: auto;
+        gap: 3rem;
+    }
+    .hero-content { max-width: 100%; }
+    .hero-title { font-size: 3rem; }
+    .hero-actions { 
+        justify-content: center; 
+        flex-wrap: wrap; 
+        gap: 1.5rem;
+    }
+    .hero-image { width: 100%; justify-content: center; height: 50vh; }
+    .hero-image img { width: 100%; box-shadow: 10px 10px 0px rgba(197, 168, 128, 0.1); }
+
+    /* 3. Reestructuración de Grillas a 1 Columna */
+    .about-grid, 
+    .experience-grid, 
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+
+    /* 4. Portafolio */
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .portfolio-filters { flex-wrap: wrap; gap: 1rem; }
+    .portfolio-item img { height: 350px; }
+
+    /* 5. Footer */
+    .footer-links-wrapper {
+        flex-direction: column;
+        gap: 2.5rem;
+        padding-top: 2rem;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+}

@@ -115,16 +115,21 @@ class AccordionController extends UIAnimator {
             const header = item.querySelector('.accordion-header');
             
             header.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                this.elements.forEach(el => el.classList.remove('active'));
+                // Ahora verificamos si tiene la clase 'open' en lugar de 'active'
+                const isOpen = item.classList.contains('open');
+                
+                // Cierra todos quitando la clase 'open'
+                this.elements.forEach(el => el.classList.remove('open'));
 
-                if (!isActive) {
-                    item.classList.add('active');
+                // Si no estaba abierto, lo abrimos
+                if (!isOpen) {
+                    item.classList.add('open');
                 }
             });
         });
     }
 }
+
 
 // NUEVA CLASE: Sistema de Filtrado de Portafolio Avanzado (Sección 5 - SRP)
 class PortfolioFilter {

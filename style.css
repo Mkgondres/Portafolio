@@ -480,3 +480,178 @@ body {
 .accordion-item.active .accordion-icon::after {
     transform: translateX(-50%) rotate(90deg); /* La línea vertical gira, formando un '-' */
 }
+/* ================= SECCIÓN 5: OBRAS SELECCIONADAS ================= */
+.portfolio-section {
+    padding: 8rem 5% 12rem;
+    background-color: var(--bg-color);
+}
+
+.portfolio-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.portfolio-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 6rem;
+    text-align: center;
+}
+
+/* Menú de Filtros */
+.portfolio-filters {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.filter-btn {
+    background: transparent;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 6px;
+    transition: color 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    color: var(--text-main);
+}
+
+.filter-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--text-main);
+    transition: width 0.3s ease;
+}
+
+.filter-btn.active::after {
+    width: 100%;
+}
+
+/* Grilla Asimétrica Mosaico */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en PC */
+    gap: 3rem;
+    row-gap: 5rem;
+}
+
+/* El elemento individual */
+.portfolio-item {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Modificador para fotos horizontales anchas */
+.portfolio-item.item-wide {
+    grid-column: span 2; /* Ocupa dos columnas */
+}
+
+.item-image-wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: #EAE8E3;
+    overflow: hidden;
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    display: block;
+}
+
+/* Ajustes de altura para forzar la asimetría */
+.portfolio-item:nth-child(3n+1) .item-image-wrapper { height: 550px; } /* Verticales/Altas */
+.portfolio-item:nth-child(3n+2) .item-image-wrapper { height: 400px; } /* Horizontales */
+.portfolio-item:nth-child(3n+3) .item-image-wrapper { height: 450px; } /* Cuadradas */
+
+/* Información oculta (Efecto Hover en Escritorio) */
+.portfolio-item-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 3rem 2rem 2rem;
+    background: linear-gradient(to top, rgba(26,26,26,0.7) 0%, rgba(26,26,26,0) 100%);
+    opacity: 0; /* Oculto inicialmente */
+    transform: translateY(15px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none; /* No estorba clics */
+}
+
+.item-title {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 400;
+    font-style: italic;
+    color: #FFFFFF; /* Texto blanco sobre el fondo oscuro */
+    margin-bottom: 0.3rem;
+}
+
+.item-category {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Disparadores de Animación Hover (Solo PC) */
+@media (min-width: 851px) {
+    .portfolio-item:hover img {
+        transform: scale(1.04);
+    }
+    .portfolio-item:hover .portfolio-item-info {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================= COMPORTAMIENTO PREMIUM MÓVIL ================= */
+@media (max-width: 850px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr; /* Todo en una sola columna limpia */
+        gap: 4rem;
+    }
+    
+    .portfolio-item.item-wide {
+        grid-column: span 1; /* Pierde el ancho doble */
+    }
+    
+    .portfolio-item .item-image-wrapper {
+        height: 400px !important; /* Altura estándar perfecta para celulares */
+    }
+
+    .portfolio-filters {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    /* En móviles, la info está SIEMPRE visible en la base de la foto */
+    .portfolio-item-info {
+        opacity: 1;
+        transform: translateY(0);
+        padding: 4rem 1.5rem 1.5rem; /* Degradado un poco más alto */
+    }
+    
+    .item-title {
+        font-size: 1.4rem;
+    }
+}

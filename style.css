@@ -1,1 +1,213 @@
+/* ================= VARIABLES Y RESET ================= */
+:root {
+    --bg-color: #F9F8F6; /* Blanco roto / Crema muy sutil */
+    --text-main: #1A1A1A; /* Negro carbón (no negro puro para menos fatiga visual) */
+    --text-muted: #666666; /* Gris elegante */
+    --accent: #B09B71; /* Un dorado opaco/bronce para pequeños detalles */
+    
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ================= NAVEGACIÓN ================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 5%;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--text-main);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-contact {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid var(--text-main);
+    padding-bottom: 2px;
+}
+
+/* ================= SECCIÓN HERO EDITORIAL ================= */
+.editorial-hero {
+    height: 100vh;
+    display: flex;
+    width: 100%;
+}
+
+/* --- Lado Izquierdo (Textos) --- */
+.hero-content {
+    width: 55%;
+    display: flex;
+    align-items: center;
+    padding: 0 8% 0 10%;
+}
+
+.content-wrapper {
+    max-width: 600px;
+    margin-top: 5rem;
+}
+
+.hero-tag {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    border-left: 1px solid var(--text-main);
+    padding-left: 1rem;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    /* clamp() permite que la fuente sea gigante en PC y se achique suavemente en móvil */
+    font-size: clamp(4rem, 8vw, 7.5rem); 
+    line-height: 1;
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    letter-spacing: -2px;
+}
+
+.hero-desc {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 3.5rem;
+    max-width: 450px;
+    font-weight: 300;
+}
+
+/* Enlace "Conocer más" */
+.btn-editorial {
+    text-decoration: none;
+    color: var(--text-main);
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-style: italic;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.btn-editorial::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--text-main);
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.btn-editorial:hover::after {
+    transform: scaleX(0);
+    transform-origin: right;
+}
+
+.btn-editorial span {
+    font-style: normal;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-editorial:hover span {
+    transform: translateY(5px);
+}
+
+/* --- Lado Derecho (Imagen) --- */
+.hero-visual {
+    width: 45%;
+    height: 100vh;
+    padding: 2rem 2rem 2rem 0;
+    overflow: hidden;
+}
+
+.image-wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: #EAE8E3; /* Color de fondo mientras carga la imagen */
+    overflow: hidden;
+    /* La transición se controla por JS, pero añadimos will-change para rendimiento */
+    will-change: transform;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Escalamos la imagen un poco para tener margen al hacer el efecto Parallax */
+    transform: scale(1.05); 
+}
+
+/* ================= CLASES DE UTILIDAD JS (Animaciones) ================= */
+.reveal-text {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal-text.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 

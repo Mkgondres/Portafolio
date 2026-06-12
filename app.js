@@ -152,12 +152,29 @@ class LightboxGallery {
         document.body.style.overflow = 'hidden'; 
     }
     closeLightbox() { this.lightbox.classList.remove('active'); document.body.style.overflow = 'auto'; }
-    navigate(direction) {
-        this.currentIndex += direction;
-        if (this.currentIndex >= this.visibleItems.length) this.currentIndex = 0;
-        if (this.currentIndex < 0) this.currentIndex = this.visibleItems.length - 1;
-        this.updateLightboxContent();
+        navigate(direction) {
+        // 1. Iniciamos el desvanecimiento ("apagamos" la foto y el texto actual)
+        this.img.classList.add('fade-out');
+        this.title.classList.add('fade-out');
+        this.category.classList.add('fade-out');
+
+        // 2. Esperamos 300 milisegundos (lo que dura el apagado en el CSS)
+        setTimeout(() => {
+            // Calculamos cuál es la siguiente foto
+            this.currentIndex += direction;
+            if (this.currentIndex >= this.visibleItems.length) this.currentIndex = 0;
+            if (this.currentIndex < 0) this.currentIndex = this.visibleItems.length - 1;
+            
+            // Cambiamos la foto mientras está invisible
+            this.updateLightboxContent();
+
+            // 3. Volvemos a "encender la luz" retirando la clase
+            this.img.classList.remove('fade-out');
+            this.title.classList.remove('fade-out');
+            this.category.classList.remove('fade-out');
+        }, 300); // 300ms de magia cinematográfica
     }
+
     updateLightboxContent() {
         const item = this.visibleItems[this.currentIndex];
         this.img.src = item.querySelector('img').src;

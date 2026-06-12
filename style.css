@@ -263,4 +263,84 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+/* ================= SECCIÓN 3: TRAYECTORIA Y FORMACIÓN ================= */
+.resume-section {
+    padding: 8rem 5% 12rem;
+    background-color: var(--bg-color); /* Continuidad de color */
+}
+
+.resume-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.resume-header {
+    margin-bottom: 6rem;
+    text-align: center;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 400;
+    color: var(--text-main);
+    letter-spacing: -1px;
+}
+
+.resume-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem; /* Gran separación entre las dos columnas */
+}
+
+.resume-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos de cada bloque de experiencia/educación */
+.resume-item {
+    padding: 2.5rem 0;
+    border-top: 1px solid rgba(26, 26, 26, 0.15); /* Línea separadora ultra fina */
+}
+
+.resume-item:first-child {
+    border-top: 2px solid var(--text-main); /* Línea más gruesa para iniciar la columna */
+}
+
+.resume-year {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.resume-role {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.resume-entity {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-main);
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+}
+
+.resume-desc {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 90%;
+}
 

@@ -1,3 +1,26 @@
+// 1. Importamos las herramientas de Firebase usando enlaces web (CDN)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+// 2. La configuración de tu proyecto
+const firebaseConfig = {
+  apiKey: "AIzaSyDBg0n4lFbO42s1sax3ve4_jKDpQGkdQCo",
+  authDomain: "mi-portafolio-aad90.firebaseapp.com",
+  projectId: "mi-portafolio-aad90",
+  storageBucket: "mi-portafolio-aad90.firebasestorage.app",
+  messagingSenderId: "207584593414",
+  appId: "1:207584593414:web:eecfe3e8531d4872626587",
+  measurementId: "G-YRFNL9X3SK"
+};
+
+// 3. Encendemos Firebase y conectamos la base de datos
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+console.log("¡Firebase conectado con éxito!");
+
+
+
 /**
  * ==========================================
  * Arquitectura JS - SOLID Principles

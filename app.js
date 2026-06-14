@@ -221,7 +221,7 @@ async function cargarProyectos() {
     if (!contenedor) return;
 
     // Buscamos tu carpeta en la nube
-    const proyectosRef = collection(db, "proyectos");
+    const proyectosRef = collection(db, "proyecto");
     const querySnapshot = await getDocs(proyectosRef);
     
     // Recorremos y dibujamos cada proyecto nuevo sin borrar el HTML previo

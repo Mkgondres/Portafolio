@@ -214,13 +214,55 @@ class LightboxGallery {
 // 2. INICIALIZACIÓN (Encendemos las herramientas)
 // --------------------------------------------------
 
-document.addEventListener('DOMContentLoaded', () => {
+// Función para traer los proyectos de Firebase sumándolos a los tuyos
+async function cargarProyectos() {
+  try {
+    const contenedor = document.getElementById('contenedor-proyectos');
+    if (!contenedor) return;
+
+    // Buscamos tu carpeta en la nube
+    const proyectosRef = collection(db, "proyectos");
+    const querySnapshot = await getDocs(proyectosRef);
+    
+    // Recorremos y dibujamos cada proyecto nuevo sin borrar el HTML previo
+    querySnapshot.forEach((doc) => {
+      const proyecto = doc.data();
+      
+      const tarjetaHTML = `
+        <div class="portfolio-item scroll-reveal" data-category="residencial">
+            <div class="item-image-wrapper">
+                <img src="${proyecto.imagen}" alt="${proyecto.titulo}">
+            </div>
+            <div class="portfolio-item-info">
+                <h3 class="item-title">${proyecto.titulo}</h3>
+                <span class="item-category">${proyecto.descripcion}</span>
+            </div>
+        </div>
+      `;
+      
+      contenedor.innerHTML += tarjetaHTML;
+    });
+  } catch (error) {
+    console.error("Hubo un error cargando los proyectos:", error);
+  }
+}
+
+// Encendemos todo cuando la página cargue
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. PRIMERO: Traemos los proyectos de la nube
+    await cargarProyectos();
+
+    // 2. SEGUNDO: Encendemos tus herramientas (así detectan las fotos nuevas)
     new TextSequenceAnimator('.reveal-text', 200).init();
-    new MouseParallax('parallax-container', 'parallax-image', 15).init();
     new ScrollObserver('.scroll-reveal').init();
     new AccordionController('.accordion-item').init();
     new PortfolioFilter('.filter-btn', '.portfolio-item').init();
     new MobileMenu('.hamburger-btn', '.nav-menu').init();
     new CarouselController('.resume-grid', '.resume-column', '.indicator-dash').init();
     new LightboxGallery().init();
+    
+    // Solo activamos Parallax si existe el contenedor para evitar errores en consola
+    if(document.getElementById('parallax-container')) {
+        new MouseParallax('parallax-container', 'parallax-image', 15).init();
+    }
 });

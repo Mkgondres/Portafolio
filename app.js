@@ -163,18 +163,25 @@ class LightboxGallery {
         this.currentIndex = this.visibleItems.indexOf(clickedItem);
         this.updateLightboxContent();
         this.lightbox.classList.add('active');
-        
-        // Bloqueamos el scroll de la página de fondo
-        document.documentElement.classList.add('no-scroll');
-        document.body.classList.add('no-scroll');
+        document.body.style.overflow = 'hidden'; 
     }
+    closeLightbox() { this.lightbox.classList.remove('active'); document.body.style.overflow = 'auto'; }
+    navigate(direction) {
+        this.img.classList.add('fade-out');
+        this.title.classList.add('fade-out');
+        this.category.classList.add('fade-out');
 
-    closeLightbox() {
-        this.lightbox.classList.remove('active');
-        
-        // Restauramos el scroll
-        document.documentElement.classList.remove('no-scroll');
-        document.body.classList.remove('no-scroll');
+        setTimeout(() => {
+            this.currentIndex += direction;
+            if (this.currentIndex >= this.visibleItems.length) this.currentIndex = 0;
+            if (this.currentIndex < 0) this.currentIndex = this.visibleItems.length - 1;
+            
+            this.updateLightboxContent();
+
+            this.img.classList.remove('fade-out');
+            this.title.classList.remove('fade-out');
+            this.category.classList.remove('fade-out');
+        }, 300);
     }
 
     updateLightboxContent() {

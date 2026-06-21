@@ -239,8 +239,9 @@ p, .resume-desc, .accordion-inner p { font-size: 1.15rem; line-height: 1.8; colo
     .social-links { flex-direction: column; gap: 1.5rem; }
     .contact-bottom { flex-direction: column; gap: 1.5rem; text-align: center; }
 }
-/* Clase para bloquear el scroll del fondo */
+
+
+/* Bloqueo de scroll */
 .no-scroll {
     overflow: hidden !important;
-    height: 100vh !important;
 }

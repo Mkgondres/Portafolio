@@ -137,35 +137,73 @@ class CarouselController extends UIAnimator {
 
 class LightboxGallery {
     constructor() {
-        this.lightbox = document.getElementById('lightbox'); this.img = document.getElementById('lightbox-img');
-        this.title = document.getElementById('lightbox-title'); this.category = document.getElementById('lightbox-category');
-        this.closeBtn = document.querySelector('.lightbox-close'); this.prevBtn = document.querySelector('.lightbox-prev'); this.nextBtn = document.querySelector('.lightbox-next');
-        this.currentFilter = 'all'; this.visibleItems = []; this.currentIndex = 0;
-        this.touchStartX = 0; this.touchEndX = 0;
+        this.lightbox = document.getElementById('lightbox'); 
+        this.img = document.getElementById('lightbox-img');
+        this.title = document.getElementById('lightbox-title'); 
+        this.category = document.getElementById('lightbox-category');
+        this.closeBtn = document.querySelector('.lightbox-close'); 
+        this.prevBtn = document.querySelector('.lightbox-prev'); 
+        this.nextBtn = document.querySelector('.lightbox-next');
+        this.currentFilter = 'all'; 
+        this.visibleItems = []; 
+        this.currentIndex = 0;
+        this.touchStartX = 0; 
+        this.touchEndX = 0;
     }
+
     init() {
         if (!this.lightbox) return;
         
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', (e) => this.currentFilter = e.target.getAttribute('data-filter')));
-        document.querySelectorAll('.portfolio-item').forEach(item => item.addEventListener('click', () => this.openLightbox(item)));
+        // 1. Delegación de eventos en el contenedor de proyectos
+        // Esto soluciona el problema de que las fotos de Firebase no respondían
+        document.getElementById('contenedor-proyectos').addEventListener('click', (e) => {
+            const item = e.target.closest('.portfolio-item');
+            if (item) this.openLightbox(item);
+        });
+
+        // 2. Filtros
+        document.querySelectorAll('.filter-btn').forEach(btn => 
+            btn.addEventListener('click', (e) => this.currentFilter = e.target.getAttribute('data-filter'))
+        );
         
+        // 3. Controles
         this.closeBtn.addEventListener('click', () => this.closeLightbox());
         this.prevBtn.addEventListener('click', () => this.navigate(-1));
         this.nextBtn.addEventListener('click', () => this.navigate(1));
         this.lightbox.addEventListener('click', (e) => { if (e.target === this.lightbox) this.closeLightbox(); });
         
+        // 4. Swipe
         this.lightbox.addEventListener('touchstart', e => this.touchStartX = e.changedTouches[0].screenX, {passive: true});
         this.lightbox.addEventListener('touchend', e => { this.touchEndX = e.changedTouches[0].screenX; this.handleSwipe(); }, {passive: true});
     }
-        openLightbox(clickedItem) {
-        const allItems = Array.from(document.querySelectorAll('.portfolio-item'));
-        this.visibleItems = this.currentFilter === 'all' ? allItems : allItems.filter(item => item.getAttribute('data-category') === this.currentFilter);
+
+    openLightbox(clickedItem) {
+        // Obtenemos todos los items visibles actualmente
+        const allItems = Array.from(document.querySelectorAll('.portfolio-item')).filter(item => {
+             // Solo tomamos los que no tienen display: none
+             return window.getComputedStyle(item).display !== 'none';
+        });
+        
+        this.visibleItems = this.currentFilter === 'all' 
+            ? allItems 
+            : allItems.filter(item => item.getAttribute('data-category') === this.currentFilter);
+            
         this.currentIndex = this.visibleItems.indexOf(clickedItem);
         this.updateLightboxContent();
         this.lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden'; 
+        
+        // Bloqueo de scroll aplicado correctamente
+        document.documentElement.classList.add('no-scroll');
+        document.body.classList.add('no-scroll');
     }
-    closeLightbox() { this.lightbox.classList.remove('active'); document.body.style.overflow = 'auto'; }
+
+    closeLightbox() { 
+        this.lightbox.classList.remove('active'); 
+        // Restaurar scroll
+        document.documentElement.classList.remove('no-scroll');
+        document.body.classList.remove('no-scroll');
+    }
+
     navigate(direction) {
         this.img.classList.add('fade-out');
         this.title.classList.add('fade-out');
@@ -183,6 +221,21 @@ class LightboxGallery {
             this.category.classList.remove('fade-out');
         }, 300);
     }
+
+    updateLightboxContent() {
+        const item = this.visibleItems[this.currentIndex];
+        if (!item) return; // Seguridad
+        this.img.src = item.querySelector('img').src;
+        this.title.textContent = item.querySelector('.item-title').textContent;
+        this.category.textContent = item.querySelector('.item-category').textContent;
+    }
+
+    handleSwipe() {
+        if (this.touchEndX < this.touchStartX - 50) this.navigate(1);
+        if (this.touchEndX > this.touchStartX + 50) this.navigate(-1);
+    }
+}
+
 
     updateLightboxContent() {
         const item = this.visibleItems[this.currentIndex];

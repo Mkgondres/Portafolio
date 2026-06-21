@@ -1,4 +1,4 @@
-/* ================= VARIABLES Y RESET GLOBAL ================= */
+⅝/* ================= VARIABLES Y RESET GLOBAL ================= */
 :root {
     --bg-color: #F9F8F6;
     --text-main: #000000;
@@ -238,4 +238,9 @@ p, .resume-desc, .accordion-inner p { font-size: 1.15rem; line-height: 1.8; colo
     .contact-grid { gap: 3rem !important; padding-bottom: 4rem !important; }
     .social-links { flex-direction: column; gap: 1.5rem; }
     .contact-bottom { flex-direction: column; gap: 1.5rem; text-align: center; }
+}
+/* Clase para bloquear el scroll del fondo */
+.no-scroll {
+    overflow: hidden !important;
+    height: 100vh !important;
 }

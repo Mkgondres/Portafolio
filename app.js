@@ -19,17 +19,13 @@ const db = getFirestore(app);
 
 console.log("¡Firebase conectado con éxito!");
 
-
-
 /**
  * ==========================================
  * Arquitectura JS - SOLID Principles
  * ==========================================
  */
 
-// --------------------------------------------------
 // 1. CLASES (Las herramientas)
-// --------------------------------------------------
 
 class UIAnimator {
     constructor(selector) { this.elements = document.querySelectorAll(selector); }
@@ -150,19 +146,14 @@ class LightboxGallery {
     init() {
         if (!this.lightbox) return;
         
-        // Rastrea en qué filtro estamos parados
         document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', (e) => this.currentFilter = e.target.getAttribute('data-filter')));
-        
-        // Abre la galería al tocar una foto
         document.querySelectorAll('.portfolio-item').forEach(item => item.addEventListener('click', () => this.openLightbox(item)));
         
-        // Controles y cierre
         this.closeBtn.addEventListener('click', () => this.closeLightbox());
         this.prevBtn.addEventListener('click', () => this.navigate(-1));
         this.nextBtn.addEventListener('click', () => this.navigate(1));
         this.lightbox.addEventListener('click', (e) => { if (e.target === this.lightbox) this.closeLightbox(); });
         
-        // Swipe táctil en celulares
         this.lightbox.addEventListener('touchstart', e => this.touchStartX = e.changedTouches[0].screenX, {passive: true});
         this.lightbox.addEventListener('touchend', e => { this.touchEndX = e.changedTouches[0].screenX; this.handleSwipe(); }, {passive: true});
     }
@@ -175,29 +166,23 @@ class LightboxGallery {
         document.body.style.overflow = 'hidden'; 
     }
     closeLightbox() { this.lightbox.classList.remove('active'); document.body.style.overflow = 'auto'; }
-        navigate(direction) {
-        // 1. Iniciamos el desvanecimiento ("apagamos" la foto y el texto actual)
+    navigate(direction) {
         this.img.classList.add('fade-out');
         this.title.classList.add('fade-out');
         this.category.classList.add('fade-out');
 
-        // 2. Esperamos 300 milisegundos (lo que dura el apagado en el CSS)
         setTimeout(() => {
-            // Calculamos cuál es la siguiente foto
             this.currentIndex += direction;
             if (this.currentIndex >= this.visibleItems.length) this.currentIndex = 0;
             if (this.currentIndex < 0) this.currentIndex = this.visibleItems.length - 1;
             
-            // Cambiamos la foto mientras está invisible
             this.updateLightboxContent();
 
-            // 3. Volvemos a "encender la luz" retirando la clase
             this.img.classList.remove('fade-out');
             this.title.classList.remove('fade-out');
             this.category.classList.remove('fade-out');
-        }, 300); // 300ms de magia cinematográfica
+        }, 300);
     }
-
     updateLightboxContent() {
         const item = this.visibleItems[this.currentIndex];
         this.img.src = item.querySelector('img').src;
@@ -210,49 +195,45 @@ class LightboxGallery {
     }
 }
 
-// --------------------------------------------------
-// 2. INICIALIZACIÓN (Encendemos las herramientas)
-// --------------------------------------------------
+// 2. INICIALIZACIÓN (Actualizada para rendimiento)
 
-// Función para traer los proyectos de Firebase sumándolos a los tuyos
 async function cargarProyectos() {
-  try {
     const contenedor = document.getElementById('contenedor-proyectos');
     if (!contenedor) return;
 
-    // Buscamos tu carpeta en la nube
-    const proyectosRef = collection(db, "proyecto");
-    const querySnapshot = await getDocs(proyectosRef);
-    
-    // Recorremos y dibujamos cada proyecto nuevo sin borrar el HTML previo
-    querySnapshot.forEach((doc) => {
-      const proyecto = doc.data();
-      
-      const tarjetaHTML = `
-        <div class="portfolio-item scroll-reveal" data-category="residencial">
-            <div class="item-image-wrapper">
-                <img src="${proyecto.imagen}" alt="${proyecto.titulo}">
-            </div>
-            <div class="portfolio-item-info">
-                <h3 class="item-title">${proyecto.titulo}</h3>
-                <span class="item-category">${proyecto.descripcion}</span>
-            </div>
-        </div>
-      `;
-      
-      contenedor.innerHTML += tarjetaHTML;
-    });
-  } catch (error) {
-    console.error("Hubo un error cargando los proyectos:", error);
-  }
+    try {
+        const proyectosRef = collection(db, "proyecto");
+        const querySnapshot = await getDocs(proyectosRef);
+        
+        let htmlAcumulado = "";
+        
+        querySnapshot.forEach((doc) => {
+            const proyecto = doc.data();
+            htmlAcumulado += `
+                <div class="portfolio-item scroll-reveal" data-category="residencial">
+                    <div class="item-image-wrapper">
+                        <img src="${proyecto.imagen}" alt="${proyecto.titulo}">
+                    </div>
+                    <div class="portfolio-item-info">
+                        <h3 class="item-title">${proyecto.titulo}</h3>
+                        <span class="item-category">${proyecto.descripcion}</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Inyectamos todo el HTML nuevo de una sola vez
+        contenedor.insertAdjacentHTML('beforeend', htmlAcumulado);
+    } catch (error) {
+        console.error("Hubo un error cargando los proyectos:", error);
+    }
 }
 
-// Encendemos todo cuando la página cargue
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. PRIMERO: Traemos los proyectos de la nube
-    await cargarProyectos();
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Iniciamos la carga de proyectos (sin bloquear la UI)
+    cargarProyectos();
 
-    // 2. SEGUNDO: Encendemos tus herramientas (así detectan las fotos nuevas)
+    // 2. Encendemos tus herramientas inmediatamente
     new TextSequenceAnimator('.reveal-text', 200).init();
     new ScrollObserver('.scroll-reveal').init();
     new AccordionController('.accordion-item').init();
@@ -261,8 +242,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     new CarouselController('.resume-grid', '.resume-column', '.indicator-dash').init();
     new LightboxGallery().init();
     
-    // Solo activamos Parallax si existe el contenedor para evitar errores en consola
     if(document.getElementById('parallax-container')) {
         new MouseParallax('parallax-container', 'parallax-image', 15).init();
     }
 });
+
